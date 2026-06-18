@@ -328,6 +328,23 @@ em {
   border-radius: 14px;
   font-size: 14px;
   font-weight: 800;
+  transform-origin: center;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.86, 0.22, 1);
+  will-change: transform;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px) scale(1.035);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-primary {
@@ -434,7 +451,18 @@ em {
 
 .top-action:hover {
   border-color: rgba(255, 255, 255, 0.94);
-  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(93, 42, 31, 0.16);
+  transform: translateY(-2px) scale(1.08);
+}
+
+.top-action:focus-visible {
+  outline: 2px solid rgba(255, 253, 248, 0.86);
+  outline-offset: 3px;
+  transform: translateY(-2px) scale(1.08);
+}
+
+.top-action:active {
+  transform: translateY(0) scale(0.94);
 }
 
 .top-action img {
@@ -585,6 +613,21 @@ em {
     linear-gradient(135deg, rgba(236, 104, 67, 0.86), rgba(255, 151, 82, 0.7)),
     rgba(227, 88, 58, 0.72);
   box-shadow: 0 10px 22px rgba(118, 50, 34, 0.2);
+}
+
+.section-tab:hover,
+.section-tab:focus-visible {
+  box-shadow: 0 14px 28px rgba(102, 46, 32, 0.16);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.section-tab:focus-visible {
+  outline: 2px solid rgba(255, 253, 248, 0.82);
+  outline-offset: 3px;
+}
+
+.section-tab:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .section-tab.is-popping {
@@ -893,6 +936,19 @@ em {
   color: var(--warm-white);
   font-size: 12px;
   font-weight: 800;
+  transform-origin: center;
+  transition:
+    box-shadow 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.86, 0.22, 1);
+}
+
+.mini-btn:hover,
+.mini-btn:focus-visible {
+  transform: translateY(-2px) scale(1.04);
+}
+
+.mini-btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .mini-btn-green {
@@ -1042,6 +1098,21 @@ em {
   overflow: hidden;
   border-radius: 16px;
   background: var(--warm-white);
+  transform-origin: center;
+  transition:
+    box-shadow 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.86, 0.22, 1);
+  will-change: transform;
+}
+
+.product-card:hover,
+.product-card:focus-within {
+  box-shadow: 0 18px 34px rgba(140, 105, 73, 0.14);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.product-card:active {
+  transform: translateY(0) scale(0.985);
 }
 
 .product-image {
@@ -1175,6 +1246,21 @@ em {
   border-radius: 16px;
   background: var(--warm-white);
   box-shadow: 0 10px 24px rgba(140, 105, 73, 0.08);
+  transform-origin: center;
+  transition:
+    box-shadow 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.86, 0.22, 1);
+  will-change: transform;
+}
+
+.wishlist-option-card:hover,
+.wishlist-option-card:focus-within {
+  box-shadow: 0 18px 34px rgba(140, 105, 73, 0.14);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.wishlist-option-card:active {
+  transform: translateY(0) scale(0.985);
 }
 
 .wishlist-option-image {
