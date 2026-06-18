@@ -7,7 +7,12 @@ const likeButton = document.querySelector("[data-like-button]");
 const countdown = document.querySelector("[data-countdown]");
 const rsvpButton = document.querySelector("[data-rsvp-button]");
 const rsvpModal = document.querySelector("[data-rsvp-modal]");
-const rsvpCloseButton = document.querySelector("[data-rsvp-close]");
+const rsvpCloseButtons = document.querySelectorAll("[data-rsvp-close]");
+const rsvpForm = document.querySelector("[data-rsvp-form]");
+const rsvpSuccess = document.querySelector("[data-rsvp-success]");
+const rsvpStatus = document.querySelector("[data-rsvp-status]");
+const rsvpEndpoint =
+  "https://script.google.com/macros/s/AKfycbwIYUWP0j5_fxpn1S8bftTIac-gl03LOiHgV6TzQrqO8ZZQlVxeK6adwsTW_1Iee5A7ug/exec";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 optionalImages.forEach((image) => {
@@ -122,15 +127,72 @@ if (rsvpButton && rsvpModal) {
     rsvpButton.focus();
   };
 
+  const setRsvpSubmitting = (isSubmitting) => {
+    const controls = rsvpForm?.querySelectorAll("button, input");
+    controls?.forEach((control) => {
+      control.disabled = isSubmitting;
+    });
+  };
+
+  const showRsvpForm = () => {
+    if (rsvpForm) rsvpForm.hidden = false;
+    if (rsvpSuccess) rsvpSuccess.hidden = true;
+    if (rsvpStatus) rsvpStatus.textContent = "";
+    setRsvpSubmitting(false);
+    rsvpForm?.reset();
+  };
+
+  const showRsvpSuccess = () => {
+    if (rsvpForm) rsvpForm.hidden = true;
+    if (rsvpSuccess) rsvpSuccess.hidden = false;
+    rsvpSuccess?.querySelector("[data-rsvp-close]")?.focus();
+  };
+
   const openRsvpModal = () => {
+    showRsvpForm();
     rsvpModal.hidden = false;
     document.body.classList.add("modal-open");
     window.requestAnimationFrame(() => rsvpModal.classList.add("is-visible"));
-    rsvpCloseButton?.focus();
+    rsvpForm?.querySelector("input")?.focus();
   };
 
   rsvpButton.addEventListener("click", openRsvpModal);
-  rsvpCloseButton?.addEventListener("click", closeRsvpModal);
+  rsvpCloseButtons.forEach((button) => button.addEventListener("click", closeRsvpModal));
+  rsvpForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(rsvpForm);
+    const nombre = String(formData.get("nombre") || "").trim();
+    const duerme = String(formData.get("duerme") || "").trim();
+
+    if (!nombre || !duerme) {
+      if (rsvpStatus) rsvpStatus.textContent = "Completa tu nombre y si te quedarás a dormir.";
+      return;
+    }
+
+    setRsvpSubmitting(true);
+    if (rsvpStatus) rsvpStatus.textContent = "Enviando confirmación...";
+
+    try {
+      await fetch(rsvpEndpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify({
+          nombre,
+          duerme,
+          pagina: window.location.href,
+          enviadoEn: new Date().toISOString(),
+        }),
+      });
+      showRsvpSuccess();
+    } catch (error) {
+      setRsvpSubmitting(false);
+      if (rsvpStatus) rsvpStatus.textContent = "No se pudo enviar. Intenta otra vez.";
+    }
+  });
   rsvpModal.addEventListener("click", (event) => {
     if (event.target === rsvpModal) closeRsvpModal();
   });

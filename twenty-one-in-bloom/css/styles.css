@@ -1330,6 +1330,95 @@ body.modal-open {
   border: 1px solid rgba(255, 255, 255, 0.46);
 }
 
+.rsvp-form,
+.rsvp-success {
+  display: grid;
+  gap: 14px;
+}
+
+.rsvp-form[hidden],
+.rsvp-success[hidden] {
+  display: none;
+}
+
+.rsvp-field {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: rgba(58, 37, 29, 0.72);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.rsvp-field input[type="text"] {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid rgba(232, 115, 97, 0.26);
+  border-radius: 14px;
+  padding: 0 14px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.68);
+  font: inherit;
+  outline: none;
+}
+
+.rsvp-field input[type="text"]:focus {
+  border-color: rgba(232, 115, 97, 0.72);
+  box-shadow: 0 0 0 3px rgba(232, 115, 97, 0.14);
+}
+
+.rsvp-sleep-field legend {
+  padding: 0;
+  color: rgba(58, 37, 29, 0.72);
+}
+
+.rsvp-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.rsvp-choice-grid label {
+  position: relative;
+  display: grid;
+}
+
+.rsvp-choice-grid input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rsvp-choice-grid span {
+  display: grid;
+  min-height: 46px;
+  place-items: center;
+  border: 1px solid rgba(232, 115, 97, 0.28);
+  border-radius: 14px;
+  color: var(--coral-dark);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.rsvp-choice-grid input:checked + span {
+  border-color: rgba(232, 115, 97, 0.72);
+  color: #fffdf8;
+  background:
+    linear-gradient(135deg, rgba(236, 104, 67, 0.82), rgba(255, 151, 82, 0.66)),
+    var(--coral-dark);
+}
+
+.rsvp-status {
+  min-height: 18px;
+  margin: 0;
+  color: rgba(58, 37, 29, 0.66);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
 .bottom-nav {
   position: fixed;
   right: 14px;

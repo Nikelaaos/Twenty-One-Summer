@@ -10,12 +10,11 @@
     <link rel="manifest" href="../manifest.webmanifest" />
     <link rel="icon" type="image/png" href="../assets/images/app-icon-192.png" />
     <link rel="apple-touch-icon" href="../assets/images/app-icon-180.png" />
-    <link rel="stylesheet" href="../css/styles.css?v=modal-fix2" />
+    <link rel="stylesheet" href="../css/styles.css?v=rsvp-form1" />
   </head>
   <body data-page="closing">
     <main class="app-shell">
       <section class="screen screen-closing">
-
         <div class="image-slot closing-slot">
           <img src="../assets/images/portada2.png" alt="" data-optional-image />
         </div>
@@ -41,14 +40,40 @@
 
     <div class="rsvp-modal" role="dialog" aria-modal="true" aria-labelledby="rsvp-title" hidden data-rsvp-modal>
       <div class="rsvp-modal-card">
-        <span class="rsvp-check" aria-hidden="true">✓</span>
-        <p class="eyebrow">Confirmación recibida</p>
-        <h2 id="rsvp-title">Asistencia confirmada</h2>
-        <p>Tu confirmación fue exitosa. Gracias por acompañarme en este día tan especial.</p>
-        <button class="btn btn-primary wide" type="button" data-rsvp-close>Listo</button>
+        <form class="rsvp-form" data-rsvp-form>
+          <p class="eyebrow">Confirmar asistencia</p>
+          <h2 id="rsvp-title">¿Vienes conmigo?</h2>
+          <label class="rsvp-field">
+            <span>Tu nombre</span>
+            <input type="text" name="nombre" autocomplete="name" required placeholder="Escribe tu nombre" />
+          </label>
+          <fieldset class="rsvp-field rsvp-sleep-field">
+            <legend>¿Te quedarás a dormir?</legend>
+            <div class="rsvp-choice-grid">
+              <label>
+                <input type="radio" name="duerme" value="Sí" required />
+                <span>Sí</span>
+              </label>
+              <label>
+                <input type="radio" name="duerme" value="No" required />
+                <span>No</span>
+              </label>
+            </div>
+          </fieldset>
+          <p class="rsvp-status" aria-live="polite" data-rsvp-status></p>
+          <button class="btn btn-primary wide" type="submit">Enviar confirmación</button>
+          <button class="btn btn-secondary wide" type="button" data-rsvp-close>Ahora no</button>
+        </form>
+        <div class="rsvp-success" hidden data-rsvp-success>
+          <span class="rsvp-check" aria-hidden="true">✓</span>
+          <p class="eyebrow">Confirmación recibida</p>
+          <h2>Asistencia confirmada</h2>
+          <p>Tu respuesta fue registrada. Gracias por acompañarme en este día tan especial.</p>
+          <button class="btn btn-primary wide" type="button" data-rsvp-close>Listo</button>
+        </div>
       </div>
     </div>
 
-    <script src="../js/app.js?v=rsvp-modal"></script>
+    <script src="../js/app.js?v=rsvp-form1"></script>
   </body>
 </html>
