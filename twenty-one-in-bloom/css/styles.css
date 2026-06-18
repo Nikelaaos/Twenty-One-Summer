@@ -1835,11 +1835,12 @@ body[data-page="home"] .home-title-image {
 body[data-page="home"] .hero-title-image {
   position: absolute;
   left: 50%;
-  bottom: -60px;
+  top: -14px;
   z-index: 4;
-  width: min(112%, 380px);
+  width: min(110%, 374px);
   height: auto;
   max-height: 150px;
+  margin: 0;
   border-radius: 0;
   object-fit: contain;
   filter: drop-shadow(0 8px 16px rgba(58, 37, 29, 0.22));
