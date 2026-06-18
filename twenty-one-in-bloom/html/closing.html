@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSVP | 21 veranos</title>
+    <link rel="stylesheet" href="../css/styles.css?v=modal-fix2" />
+  </head>
+  <body data-page="closing">
+    <main class="app-shell">
+      <section class="screen screen-closing">
+
+        <div class="image-slot closing-slot">
+          <img src="../assets/images/portada2.png" alt="" data-optional-image />
+        </div>
+        <h2>Te espero, no faltes!</h2>
+        <p class="subtitle">Gracias por ser parte de este día.</p>
+        <p class="body-copy center">
+          Gracias por acompañarme en este día. Me emociona celebrar mis
+          21 con personas que quiero y guardar este verano como un recuerdo bonito.
+        </p>
+        <button class="btn btn-primary wide" type="button" data-rsvp-button>Confirmar asistencia</button>
+        <a
+          class="btn btn-secondary wide"
+          href="https://maps.app.goo.gl/RbQ6xr3LnnAJpkrz5"
+          target="_blank"
+          rel="noopener"
+        >
+          ⌖ Ver ubicación
+        </a>
+        <a class="btn btn-soft wide" href="../index.html">⌂ Volver al inicio</a>
+        <p class="signature">con amor, <strong>Nikki ✦</strong></p>
+      </section>
+    </main>
+
+    <div class="rsvp-modal" role="dialog" aria-modal="true" aria-labelledby="rsvp-title" hidden data-rsvp-modal>
+      <div class="rsvp-modal-card">
+        <span class="rsvp-check" aria-hidden="true">✓</span>
+        <p class="eyebrow">Confirmación recibida</p>
+        <h2 id="rsvp-title">Asistencia confirmada</h2>
+        <p>Tu confirmación fue exitosa. Gracias por acompañarme en este día tan especial.</p>
+        <button class="btn btn-primary wide" type="button" data-rsvp-close>Listo</button>
+      </div>
+    </div>
+
+    <script src="../js/app.js?v=rsvp-modal"></script>
+  </body>
+</html>

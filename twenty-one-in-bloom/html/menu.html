@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu | 21 veranos</title>
+    <link rel="stylesheet" href="../css/styles.css?v=responsive-frame2" />
+  </head>
+  <body data-page="menu">
+    <main class="app-shell">
+      <section class="screen screen-menu">
+        <header class="menu-topbar" aria-label="Acciones de la invitacion">
+          <a class="top-action home-action" href="../index.html" aria-label="Volver al inicio">
+            <img src="../assets/icons/home.svg" alt="" aria-hidden="true" />
+          </a>
+          <button class="top-action like-action" type="button" aria-pressed="false" data-like-button>
+            <img class="heart-outline" src="../assets/icons/heart.svg" alt="" aria-hidden="true" />
+            <img class="heart-filled" src="../assets/icons/heart-filled.svg" alt="" aria-hidden="true" />
+          </button>
+        </header>
+
+        <div class="menu-hero">
+          <p class="eyebrow">21 veranos</p>
+          <h2>Todo lo que <em>necesitas saber</em></h2>
+          <div class="countdown" data-countdown="2026-07-25T00:00:00" aria-live="polite">
+            <p class="countdown-label">Faltan</p>
+            <div class="countdown-grid">
+              <span><strong data-countdown-days>00</strong>Días</span>
+              <span><strong data-countdown-hours>00</strong>Horas</span>
+              <span><strong data-countdown-minutes>00</strong>Min</span>
+              <span><strong data-countdown-seconds>00</strong>Seg</span>
+            </div>
+          </div>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+
+        <nav class="section-tabs" aria-label="Menu de secciones">
+          <button class="section-tab is-active" type="button" data-menu-tab data-target="details-panel">
+            Detalles
+          </button>
+          <button class="section-tab" type="button" data-menu-tab data-target="schedule-panel">
+            Horario
+          </button>
+          <button class="section-tab" type="button" data-menu-tab data-target="activities-panel">
+            Plan
+          </button>
+          <button class="section-tab" type="button" data-menu-tab data-target="wishlist-panel">
+            Wishlist
+          </button>
+        </nav>
+
+        <div class="menu-panels">
+          <section id="details-panel" class="menu-tab-panel is-active" data-menu-panel>
+            <article class="menu-section-heading">
+              <h3>Detalles del día</h3>
+              <p>Para llegar sin drama y con outfit bonito.</p>
+            </article>
+
+            <div id="details-content" class="detail-list menu-detail-list">
+              <article class="detail-card card-pink">
+                <span class="icon-bubble"><img src="../assets/icons/calendar.svg" alt="" /></span>
+                <div>
+                  <small>Fecha</small>
+                  <strong>Sábado 25 de julio</strong>
+                </div>
+              </article>
+              <article class="detail-card card-yellow">
+                <span class="icon-bubble"><img src="../assets/icons/clock.svg" alt="" /></span>
+                <div>
+                  <small>Hora</small>
+                  <strong>2:00 PM - 8:00 PM</strong>
+                </div>
+              </article>
+              <article class="detail-card card-blue">
+                <span class="icon-bubble"><img src="../assets/icons/place.svg" alt="" /></span>
+                <div>
+                  <small>Lugar</small>
+                  <strong>Casa de mi querido novio</strong>
+                </div>
+              </article>
+              <article class="detail-card card-green">
+                <span class="icon-bubble"><img src="../assets/icons/map-arrow.svg" alt="" /></span>
+                <div>
+                  <small>Ubicación</small>
+                  <strong>Primo Tapia, Baja California</strong>
+                  <a
+                    class="mini-btn mini-btn-green"
+                    href="https://maps.app.goo.gl/RbQ6xr3LnnAJpkrz5"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Abrir ubicacion"
+                  >
+                    Abrir en Google Maps
+                  </a>
+                </div>
+              </article>
+              <article class="detail-card card-pink">
+                <span class="icon-bubble"><img src="../assets/icons/dress-code.svg" alt="" /></span>
+                <div>
+                  <small>Dress code</small>
+                  <strong>Veraniego</strong>
+                </div>
+              </article>
+              <article class="detail-card card-pink">
+                <span class="icon-bubble"><img src="../assets/icons/note-heart.svg" alt="" /></span>
+                <div>
+                  <small>Nota especial</small>
+                  <strong>Trae ropa extra, toalla y chanclas por si te metes a la playa. Y regalo, obvio.</strong>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="schedule-panel" class="menu-tab-panel" data-menu-panel hidden>
+            <article class="menu-section-heading">
+              <h3>Plan del día</h3>
+              <p>Un pequeño mapa de la celebración.</p>
+            </article>
+
+            <div class="timeline menu-timeline">
+              <article class="timeline-item">
+                <time>5:00 PM</time>
+                <span class="timeline-dot">✿</span>
+                <div><strong>Llegada</strong><p>Nos reunimos, saludamos y dejamos todo listo para empezar.</p></div>
+              </article>
+              <article class="timeline-item">
+                <time>5:30 PM</time>
+                <span class="timeline-dot">◫</span>
+                <div>
+                  <strong>Fotos</strong>
+                  <p>Momento para fotitos bonitas antes de que empiece el desorden lindo.</p>
+                </div>
+              </article>
+              <article class="timeline-item">
+                <time>6:00 PM</time>
+                <span class="timeline-dot">◌</span>
+                <div><strong>Comida & Snacks</strong><p>Algo rico para compartir, picar y seguir platicando.</p></div>
+              </article>
+              <article class="timeline-item">
+                <time>6:30 PM</time>
+                <span class="timeline-dot">✦</span>
+                <div>
+                  <strong>Juegos & Dinámica</strong>
+                  <p>Dinámicas sencillas para reírnos, movernos y convivir.</p>
+                </div>
+              </article>
+              <article class="timeline-item">
+                <time>7:30 PM</time>
+                <span class="timeline-dot">◇</span>
+                <div><strong>Pastel</strong><p>Cantamos cumple, partimos pastel y hacemos el brindis.</p></div>
+              </article>
+              <article class="timeline-item">
+                <time>8:00 PM</time>
+                <span class="timeline-dot">♪</span>
+                <div>
+                  <strong>Música y convivencia</strong>
+                  <p>Música, plática y ratito tranquilo para cerrar bonito.</p>
+                </div>
+              </article>
+              <article class="timeline-item">
+                <time>9:00 PM</time>
+                <span class="timeline-dot">◑</span>
+                <div><strong>Cierre</strong><p>Nos despedimos con abrazos y gracias por venir.</p></div>
+              </article>
+            </div>
+          </section>
+
+          <section id="activities-panel" class="menu-tab-panel" data-menu-panel hidden>
+            <article class="menu-section-heading">
+              <h3>Lo que haremos</h3>
+              <p>Momentos bonitos, fotos y risas obligatorias.</p>
+            </article>
+
+            <div class="activity-stack menu-activity-stack">
+              <article class="activity-card card-blue">
+                <div class="image-slot activity-image">
+                  <img src="../assets/images/act_voleibol.jpg" alt="" data-optional-image />
+                </div>
+                <div><strong>Voleibol</strong><p>Un partido relajado para jugar, reírnos y no tomarnos nada tan en serio.</p></div>
+              </article>
+              <article class="activity-card card-green">
+                <div class="image-slot activity-image">
+                  <img src="../assets/images/act_carneasada.jpg" alt="" data-optional-image />
+                </div>
+                <div><strong>Carne asada</strong><p>Comida rica, botanas y ese momento de estar todos alrededor de la mesa.</p></div>
+              </article>
+              <article class="activity-card card-pink">
+                <div class="image-slot activity-image">
+                  <img src="../assets/images/act_creativo.jpg" alt="" data-optional-image />
+                </div>
+                <div><strong>Actividad creativa</strong><p>Un plan cute para hacer algo con las manos y llevarnos un recuerdito.</p></div>
+              </article>
+              <article class="activity-card card-yellow">
+                <div class="image-slot activity-image">
+                  <img src="../assets/images/act_fogata.jpg" alt="" data-optional-image />
+                </div>
+                <div><strong>Fogata</strong><p>Malvaviscos, fotos y plática bonita cuando baje el sol.</p></div>
+              </article>
+            </div>
+          </section>
+
+          <section id="wishlist-panel" class="menu-tab-panel" data-menu-panel hidden>
+            <article class="menu-section-heading">
+              <h3>Wishlist</h3>
+              <p>Por si buscas alguna pista para regalitos, aquí te dejo varios.</p>
+            </article>
+
+            <div class="wishlist-section">
+              <div class="product-grid wishlist-category-grid">
+                <article class="product-card wishlist-category-card card-yellow">
+                  <div class="product-image">
+                    <img src="../assets/images/wl_acc1.jpg" alt="" data-optional-image />
+                  </div>
+                  <div class="wishlist-category-copy">
+                    <strong>Accesorios</strong>
+                    <p>Collares, anillos, pulseras y detalles brillitos.</p>
+                    <a href="wishlist/accesorios.html">Ver opciones</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="wishlist-section">
+              <div class="product-grid wishlist-category-grid">
+                <article class="product-card wishlist-category-card card-blue">
+                  <div class="product-image">
+                    <img src="../assets/images/wl_cc1.jpg" alt="" data-optional-image />
+                  </div>
+                  <div class="wishlist-category-copy">
+                    <strong>Cosas cute</strong>
+                    <p>Cositas tiernas, decorativas o pequeños antojos.</p>
+                    <a href="wishlist/cosas-cute.html">Ver opciones</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="wishlist-section">
+              <div class="product-grid wishlist-category-grid">
+                <article class="product-card wishlist-category-card card-pink">
+                  <div class="product-image">
+                    <img src="../assets/images/wl_books1.jpg" alt="" data-optional-image />
+                  </div>
+                  <div class="wishlist-category-copy">
+                    <strong>Libros</strong>
+                    <p>Lecturas bonitas, sagas y detalles para leer cozy.</p>
+                    <a href="wishlist/libros.html">Ver opciones</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="wishlist-section">
+              <div class="product-grid wishlist-category-grid">
+                <article class="product-card wishlist-category-card card-pink">
+                  <div class="product-image">
+                    <img src="../assets/images/wl_dress1.jpg" alt="" data-optional-image />
+                  </div>
+                  <div class="wishlist-category-copy">
+                    <strong>Ropa</strong>
+                    <p>Prendas frescas, cómodas y muy de verano.</p>
+                    <a href="wishlist/ropa.html">Ver opciones</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <a class="btn btn-primary wide" href="closing.html">Confirmar asistencia</a>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="../js/app.js?v=tabs2"></script>
+  </body>
+</html>
