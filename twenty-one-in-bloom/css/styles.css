@@ -1847,7 +1847,7 @@ body[data-page="home"] .hero-slot {
 
 body[data-page="home"] .hero-slot > img:first-child {
   border-radius: inherit;
-  object-position: center 58%;
+  object-position: center 46%;
 }
 
 body[data-page="home"] .hero-slot::before {
