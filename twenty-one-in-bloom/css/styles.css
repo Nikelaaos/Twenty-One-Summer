@@ -1777,12 +1777,24 @@ body[data-page="home"] .hero-thought-note {
   place-items: center;
   padding: 50px 32px 13px 30px;
   color: #2f221b;
-  background: url("../assets/images/notes.png") center top / 100% auto no-repeat;
-  filter: drop-shadow(0 12px 18px rgba(76, 39, 26, 0.18));
+  overflow: visible;
   transform: translateX(-50%);
 }
 
+body[data-page="home"] .hero-note-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 12px 18px rgba(76, 39, 26, 0.18));
+  pointer-events: none;
+}
+
 body[data-page="home"] .hero-thought-note p {
+  position: relative;
+  z-index: 1;
   max-width: 146px;
   margin: 0;
   color: #2f221b;
