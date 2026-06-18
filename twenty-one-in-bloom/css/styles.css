@@ -45,6 +45,7 @@ body {
     linear-gradient(180deg, rgba(255, 231, 226, 0.48), rgba(241, 173, 126, 0.3)),
     url("../assets/images/fondo.jpg") center / cover fixed,
     #ef9a77;
+  background-repeat: no-repeat;
 }
 
 a {
@@ -54,23 +55,22 @@ a {
 
 .app-shell {
   width: min(var(--phone-width), calc(100vw - (var(--page-gutter) * 2)));
+  min-height: 100svh;
   margin: 0 auto;
   background:
-    linear-gradient(180deg, rgba(255, 247, 237, 0.42), rgba(255, 246, 235, 0.2)),
-    url("../assets/images/fondo.jpg") center / cover;
+    linear-gradient(180deg, rgba(255, 247, 237, 0.38), rgba(255, 246, 235, 0.18)),
+    rgba(255, 245, 235, 0.18);
   box-shadow: 0 0 42px rgba(40, 62, 70, 0.18);
   overflow: hidden;
+  backdrop-filter: blur(6px) saturate(1.08);
 }
 
 .screen {
   position: relative;
   min-height: 100svh;
   padding: 48px 24px 104px;
-  background:
-    linear-gradient(180deg, rgba(255, 250, 244, 0.72), rgba(255, 236, 221, 0.36)),
-    radial-gradient(circle at 92% 2%, rgba(255, 255, 255, 0.34), transparent 22%),
-    radial-gradient(circle at 14% 82%, rgba(243, 109, 81, 0.16), transparent 28%);
-  backdrop-filter: blur(2px);
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .screen-home,
@@ -1563,21 +1563,10 @@ body.modal-open {
 
 body[data-page="menu"] {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover fixed,
-    #ef9a77;
 }
 
 body[data-page="menu"]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover no-repeat,
-    #ef9a77;
+  display: none;
 }
 
 body[data-page="menu"] .app-shell {
@@ -1586,8 +1575,7 @@ body[data-page="menu"] .app-shell {
 }
 
 body[data-page="menu"] .screen-menu {
-  background:
-    linear-gradient(180deg, rgba(255, 247, 239, 0.26), rgba(255, 182, 135, 0.14));
+  background: transparent;
 }
 
 body[data-page="menu"] .screen-menu h2,
@@ -1794,21 +1782,10 @@ body[data-page="menu"] .bottom-nav {
 
 body[data-page="home"] {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover fixed,
-    #ef9a77;
 }
 
 body[data-page="home"]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover no-repeat,
-    #ef9a77;
+  display: none;
 }
 
 body[data-page="home"] .app-shell {
@@ -1822,8 +1799,7 @@ body[data-page="home"] .screen-home {
   min-height: auto;
   padding-top: 44px;
   padding-bottom: 34px;
-  background:
-    linear-gradient(180deg, rgba(255, 247, 239, 0.26), rgba(255, 182, 135, 0.14));
+  background: transparent;
 }
 
 body[data-page="home"] .date-pill {
@@ -2019,21 +1995,10 @@ body[data-page="home"] .hint-link {
 
 body[data-page="closing"] {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover fixed,
-    #ef9a77;
 }
 
 body[data-page="closing"]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover no-repeat,
-    #ef9a77;
+  display: none;
 }
 
 body[data-page="closing"] .app-shell {
@@ -2046,8 +2011,7 @@ body[data-page="closing"] .screen-closing {
   min-height: auto;
   padding-top: 34px;
   padding-bottom: 34px;
-  background:
-    linear-gradient(180deg, rgba(255, 247, 239, 0.26), rgba(255, 182, 135, 0.14));
+  background: transparent;
 }
 
 body[data-page="closing"] .closing-slot {
@@ -2126,21 +2090,10 @@ body[data-page="closing"] .btn-soft {
 
 body[data-page="product"] {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover fixed,
-    #ef9a77;
 }
 
 body[data-page="product"]::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(38, 22, 18, 0.12), rgba(240, 132, 89, 0.18)),
-    url("../assets/images/fondo.jpg") center / cover no-repeat,
-    #ef9a77;
+  display: none;
 }
 
 body[data-page="product"] .app-shell {
@@ -2149,8 +2102,7 @@ body[data-page="product"] .app-shell {
 }
 
 body[data-page="product"] .screen {
-  background:
-    linear-gradient(180deg, rgba(255, 247, 239, 0.26), rgba(255, 182, 135, 0.14));
+  background: transparent;
 }
 
 body[data-page="product"] .back-link {
