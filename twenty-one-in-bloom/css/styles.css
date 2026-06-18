@@ -1808,6 +1808,7 @@ body[data-page="home"] .hero-thought-note p {
   line-height: 1.35;
   text-align: center;
   text-shadow: none;
+  transform: translateY(12px);
 }
 
 body[data-page="home"] .home-copy {
