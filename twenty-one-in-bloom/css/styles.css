@@ -354,6 +354,16 @@ em {
   box-shadow: 0 18px 30px rgba(232, 115, 97, 0.28);
 }
 
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  border-color: rgba(255, 255, 255, 0.84);
+  color: #fffdf8;
+  background:
+    linear-gradient(135deg, rgba(255, 138, 82, 0.96) 0%, rgba(255, 102, 139, 0.9) 58%, rgba(232, 87, 108, 0.92) 100%),
+    rgba(255, 151, 82, 0.9);
+  box-shadow: 0 22px 42px rgba(232, 87, 108, 0.28);
+}
+
 .btn-secondary {
   border: 1px solid rgba(232, 115, 97, 0.38);
   color: var(--coral);
@@ -1962,6 +1972,16 @@ body[data-page="home"] .btn-primary {
   background: rgba(255, 255, 255, 0.6);
   box-shadow: 0 18px 38px rgba(137, 55, 38, 0.16);
   backdrop-filter: blur(18px) saturate(1.16);
+}
+
+body[data-page="home"] .btn-primary:hover,
+body[data-page="home"] .btn-primary:focus-visible {
+  border-color: rgba(255, 255, 255, 0.86);
+  color: #fffdf8;
+  background:
+    linear-gradient(135deg, rgba(255, 143, 84, 0.94) 0%, rgba(255, 117, 143, 0.9) 55%, rgba(226, 85, 113, 0.9) 100%),
+    rgba(255, 151, 82, 0.88);
+  box-shadow: 0 22px 44px rgba(226, 85, 113, 0.28);
 }
 
 body[data-page="home"] .hint-link {
