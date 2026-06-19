@@ -102,9 +102,9 @@ a {
 }
 
 .flower-snow-layer {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 999;
   overflow: hidden;
   pointer-events: none;
   contain: strict;
@@ -112,11 +112,12 @@ a {
 }
 
 .flower-snow-canvas {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   display: block;
-  width: 100%;
-  height: 100svh;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   contain: strict;
   will-change: transform;

@@ -16,9 +16,6 @@ const rsvpEndpoint =
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const setupFlowerSnow = () => {
-  const shell = document.querySelector(".app-shell");
-  if (!shell) return;
-
   const decorationBase =
     currentPage === "home"
       ? "assets/decoration/"
@@ -31,7 +28,6 @@ const setupFlowerSnow = () => {
     "flor%202.png",
     "flor%203.png",
     "flor%204.png",
-    "flor%205.png",
     "flor%206.png",
     "flor%207.png",
   ].map((name) => `${decorationBase}${name}`);
@@ -44,27 +40,21 @@ const setupFlowerSnow = () => {
   canvas.className = "flower-snow-canvas";
   canvas.setAttribute("aria-hidden", "true");
   canvasLayer.appendChild(canvas);
-  shell.prepend(canvasLayer);
+  document.body.appendChild(canvasLayer);
 
   const context = canvas.getContext("2d", { alpha: true });
-  const pileCanvas = document.createElement("canvas");
-  const pileContext = pileCanvas.getContext("2d", { alpha: true });
-  if (!context || !pileContext) return;
+  if (!context) return;
 
   const randomBetween = (min, max) => Math.random() * (max - min) + min;
-  const terrainStep = 4;
-  const activeFlowers = [];
+  const flowers = [];
   let flowerImages = [];
-  let terrain = new Float32Array(0);
   let width = 0;
   let height = 0;
   let pixelRatio = 1;
-  let spawnElapsed = 0;
+  let flowerCount = 28;
+  let minFrameInterval = 1 / 30;
   let lastFrame = 0;
   let animationFrame = 0;
-  let maxActiveFlowers = 28;
-  let spawnDelay = 0.42;
-  let minFrameInterval = 1 / 30;
   let isRunning = true;
   let isReady = false;
 
@@ -77,87 +67,50 @@ const setupFlowerSnow = () => {
       image.src = source;
     });
 
+  const recycleFlower = (flower = {}, startOnScreen = false) => {
+    const size = randomBetween(22, Math.min(48, width * 0.13));
+    const x = randomBetween(size * 0.5, width - size * 0.5);
+
+    flower.image = flowerImages[Math.floor(Math.random() * flowerImages.length)];
+    flower.baseX = x;
+    flower.x = x;
+    flower.y = startOnScreen ? randomBetween(-height, height) : randomBetween(-height * 0.45, -size);
+    flower.size = size;
+    flower.speedY = randomBetween(38, 82);
+    flower.sway = randomBetween(8, 24);
+    flower.swaySpeed = randomBetween(0.65, 1.35);
+    flower.phase = randomBetween(0, Math.PI * 2);
+    flower.rotation = randomBetween(-Math.PI, Math.PI);
+    flower.rotationSpeed = randomBetween(-0.32, 0.32);
+    flower.opacity = randomBetween(0.34, 0.64);
+
+    return flower;
+  };
+
   const resizeCanvas = () => {
-    const bounds = canvas.getBoundingClientRect();
-    const nextWidth = Math.max(1, Math.round(bounds.width));
+    const nextWidth = Math.max(1, Math.round(window.visualViewport?.width || window.innerWidth));
     const nextHeight = Math.max(1, Math.round(window.visualViewport?.height || window.innerHeight));
     if (nextWidth === width && nextHeight === height) return;
 
     width = nextWidth;
     height = nextHeight;
     pixelRatio = Math.min(window.devicePixelRatio || 1, width <= 430 ? 1.15 : 1.25);
-    maxActiveFlowers = prefersReducedMotion ? 8 : width <= 430 ? 24 : 32;
-    spawnDelay = prefersReducedMotion ? 0.9 : width <= 430 ? 0.5 : 0.42;
+    flowerCount = prefersReducedMotion ? 10 : width <= 430 ? 26 : 34;
     minFrameInterval = prefersReducedMotion ? 1 / 16 : width <= 430 ? 1 / 28 : 1 / 32;
 
     canvas.width = Math.round(width * pixelRatio);
     canvas.height = Math.round(height * pixelRatio);
-    pileCanvas.width = canvas.width;
-    pileCanvas.height = canvas.height;
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-    pileContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     context.imageSmoothingEnabled = true;
-    pileContext.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = "low";
-    pileContext.imageSmoothingQuality = "low";
 
-    terrain = new Float32Array(Math.ceil(width / terrainStep) + 1);
-    terrain.fill(height + 4);
-    activeFlowers.length = 0;
-    spawnElapsed = 0;
-    lastFrame = 0;
-  };
-
-  const createFlower = (startOnScreen = false) => {
-    if (!flowerImages.length || activeFlowers.length >= maxActiveFlowers) return;
-
-    const size = randomBetween(22, Math.min(48, width * 0.13));
-    const x = randomBetween(size * 0.4, width - size * 0.4);
-    activeFlowers.push({
-      image: flowerImages[Math.floor(Math.random() * flowerImages.length)],
-      baseX: x,
-      x,
-      y: startOnScreen ? randomBetween(-height * 0.7, -size) : -size,
-      size,
-      speedY: randomBetween(52, 94),
-      sway: randomBetween(7, 22),
-      swaySpeed: randomBetween(0.72, 1.35),
-      phase: randomBetween(0, Math.PI * 2),
-      rotation: randomBetween(-Math.PI, Math.PI),
-      rotationSpeed: randomBetween(-0.35, 0.35),
-      opacity: randomBetween(0.34, 0.58),
-    });
-  };
-
-  const settleFlower = (flower) => {
-    const terrainIndex = Math.max(0, Math.min(terrain.length - 1, Math.round(flower.x / terrainStep)));
-    const landingY = terrain[terrainIndex];
-
-    pileContext.save();
-    pileContext.globalAlpha = Math.min(0.82, flower.opacity + 0.08);
-    pileContext.translate(flower.x, landingY - flower.size * 0.36);
-    pileContext.rotate(flower.rotation);
-    pileContext.drawImage(
-      flower.image,
-      -flower.size / 2,
-      -flower.size / 2,
-      flower.size,
-      flower.size,
-    );
-    pileContext.restore();
-
-    const footprint = flower.size * 0.44;
-    const rise = flower.size * 0.34;
-    const startIndex = Math.max(0, Math.floor((flower.x - footprint) / terrainStep));
-    const endIndex = Math.min(terrain.length - 1, Math.ceil((flower.x + footprint) / terrainStep));
-    const mountainLimit = height * 0.48;
-
-    for (let index = startIndex; index <= endIndex; index += 1) {
-      const sampleX = index * terrainStep;
-      const normalizedDistance = Math.abs(sampleX - flower.x) / footprint;
-      const mound = rise * Math.sqrt(Math.max(0, 1 - normalizedDistance * normalizedDistance));
-      terrain[index] = Math.max(mountainLimit, Math.min(terrain[index], landingY - mound));
+    flowers.length = 0;
+    if (flowerImages.length) {
+      for (let index = 0; index < flowerCount; index += 1) {
+        flowers.push(recycleFlower({}, true));
+      }
     }
+    lastFrame = 0;
   };
 
   const drawFlower = (flower) => {
@@ -188,43 +141,20 @@ const setupFlowerSnow = () => {
     const elapsedSinceFrame = (now - lastFrame) / 1000;
     if (elapsedSinceFrame < minFrameInterval) return;
 
-    const elapsed = Math.min(elapsedSinceFrame, 0.85);
+    const elapsed = Math.min(elapsedSinceFrame, 0.12);
     lastFrame = now;
-    spawnElapsed += elapsed;
-
-    const spawnCount = Math.min(Math.floor(spawnElapsed / spawnDelay), 2);
-    for (let count = 0; count < spawnCount; count += 1) {
-      spawnElapsed -= spawnDelay;
-      createFlower();
-    }
-    spawnElapsed = Math.min(spawnElapsed, spawnDelay * 2);
 
     context.clearRect(0, 0, width, height);
-    context.drawImage(pileCanvas, 0, 0, width, height);
 
-    let nextActiveIndex = 0;
-
-    for (let index = 0; index < activeFlowers.length; index += 1) {
-      const flower = activeFlowers[index];
+    flowers.forEach((flower) => {
       flower.phase += flower.swaySpeed * elapsed;
       flower.y += flower.speedY * elapsed;
       flower.x = flower.baseX + Math.sin(flower.phase) * flower.sway;
       flower.rotation += flower.rotationSpeed * elapsed;
 
-      const sampleX = Math.max(0, Math.min(width, flower.x));
-      const terrainIndex = Math.min(terrain.length - 1, Math.round(sampleX / terrainStep));
-      const hasLanded = flower.y + flower.size * 0.34 >= terrain[terrainIndex];
-
-      if (hasLanded) {
-        settleFlower(flower);
-      } else {
-        drawFlower(flower);
-        activeFlowers[nextActiveIndex] = flower;
-        nextActiveIndex += 1;
-      }
-    }
-
-    activeFlowers.length = Math.min(nextActiveIndex, maxActiveFlowers);
+      if (flower.y - flower.size > height) recycleFlower(flower);
+      drawFlower(flower);
+    });
   };
 
   const handleResize = () => {
@@ -232,7 +162,6 @@ const setupFlowerSnow = () => {
     window.cancelAnimationFrame(animationFrame);
     resizeCanvas();
     if (!isReady) return;
-    lastFrame = 0;
     animationFrame = window.requestAnimationFrame(render);
   };
 
@@ -242,27 +171,18 @@ const setupFlowerSnow = () => {
 
     isReady = true;
     resizeCanvas();
-    const initialFlowerCount = prefersReducedMotion ? 3 : Math.min(8, maxActiveFlowers);
-    for (let index = 0; index < initialFlowerCount; index += 1) createFlower(true);
     animationFrame = window.requestAnimationFrame(render);
   });
 
   window.addEventListener("resize", handleResize, { passive: true });
   window.visualViewport?.addEventListener("resize", handleResize, { passive: true });
-  document.addEventListener(
-    "visibilitychange",
-    () => {
-      lastFrame = 0;
-      spawnElapsed = 0;
-    },
-    { passive: true },
-  );
+  document.addEventListener("visibilitychange", () => { lastFrame = 0; }, { passive: true });
   window.addEventListener(
     "pagehide",
     () => {
       isRunning = false;
       window.cancelAnimationFrame(animationFrame);
-      activeFlowers.length = 0;
+      flowers.length = 0;
     },
     { once: true },
   );
