@@ -15,6 +15,227 @@ const rsvpEndpoint =
   "https://script.google.com/macros/s/AKfycbwIYUWP0j5_fxpn1S8bftTIac-gl03LOiHgV6TzQrqO8ZZQlVxeK6adwsTW_1Iee5A7ug/exec";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const setupFlowerSnow = () => {
+  const shell = document.querySelector(".app-shell");
+  if (!shell) return;
+
+  const decorationBase =
+    currentPage === "home"
+      ? "assets/decoration/"
+      : currentPage === "product"
+        ? "../../assets/decoration/"
+        : "../assets/decoration/";
+
+  const flowerSources = [
+    "flor%201.png",
+    "flor%202.png",
+    "flor%203.png",
+    "flor%204.png",
+    "flor%205.png",
+    "flor%206.png",
+    "flor%207.png",
+  ].map((name) => `${decorationBase}${name}`);
+
+  const canvasLayer = document.createElement("div");
+  canvasLayer.className = "flower-snow-layer";
+  canvasLayer.setAttribute("aria-hidden", "true");
+
+  const canvas = document.createElement("canvas");
+  canvas.className = "flower-snow-canvas";
+  canvas.setAttribute("aria-hidden", "true");
+  canvasLayer.appendChild(canvas);
+  shell.prepend(canvasLayer);
+
+  const context = canvas.getContext("2d", { alpha: true });
+  const pileCanvas = document.createElement("canvas");
+  const pileContext = pileCanvas.getContext("2d", { alpha: true });
+  if (!context || !pileContext) return;
+
+  const randomBetween = (min, max) => Math.random() * (max - min) + min;
+  const terrainStep = 2;
+  const activeFlowers = [];
+  let flowerImages = [];
+  let terrain = new Float32Array(0);
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+  let spawnElapsed = 0;
+  let lastFrame = performance.now();
+  let animationFrame = 0;
+  let isRunning = true;
+  let isReady = false;
+
+  const loadImage = (source) =>
+    new Promise((resolve) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.onload = () => resolve(image);
+      image.onerror = () => resolve(null);
+      image.src = source;
+    });
+
+  const resizeCanvas = () => {
+    const bounds = canvas.getBoundingClientRect();
+    const nextWidth = Math.max(1, Math.round(bounds.width));
+    const nextHeight = Math.max(1, Math.round(window.visualViewport?.height || window.innerHeight));
+    if (nextWidth === width && nextHeight === height) return;
+
+    width = nextWidth;
+    height = nextHeight;
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    pileCanvas.width = canvas.width;
+    pileCanvas.height = canvas.height;
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    pileContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+    terrain = new Float32Array(Math.ceil(width / terrainStep) + 1);
+    terrain.fill(height + 4);
+    activeFlowers.length = 0;
+  };
+
+  const createFlower = (startOnScreen = false) => {
+    if (!flowerImages.length || activeFlowers.length >= 64) return;
+
+    const size = randomBetween(26, Math.min(62, width * 0.15));
+    const x = randomBetween(size * 0.4, width - size * 0.4);
+    activeFlowers.push({
+      image: flowerImages[Math.floor(Math.random() * flowerImages.length)],
+      baseX: x,
+      x,
+      y: startOnScreen ? randomBetween(-height * 0.7, -size) : -size,
+      size,
+      speedY: randomBetween(48, 88),
+      sway: randomBetween(8, 30),
+      swaySpeed: randomBetween(0.8, 1.65),
+      phase: randomBetween(0, Math.PI * 2),
+      rotation: randomBetween(-Math.PI, Math.PI),
+      rotationSpeed: randomBetween(-0.45, 0.45),
+      opacity: randomBetween(0.42, 0.74),
+    });
+  };
+
+  const settleFlower = (flower) => {
+    const terrainIndex = Math.max(0, Math.min(terrain.length - 1, Math.round(flower.x / terrainStep)));
+    const landingY = terrain[terrainIndex];
+
+    pileContext.save();
+    pileContext.globalAlpha = Math.min(0.82, flower.opacity + 0.08);
+    pileContext.translate(flower.x, landingY - flower.size * 0.36);
+    pileContext.rotate(flower.rotation);
+    pileContext.drawImage(
+      flower.image,
+      -flower.size / 2,
+      -flower.size / 2,
+      flower.size,
+      flower.size,
+    );
+    pileContext.restore();
+
+    const footprint = flower.size * 0.44;
+    const rise = flower.size * 0.34;
+    const startIndex = Math.max(0, Math.floor((flower.x - footprint) / terrainStep));
+    const endIndex = Math.min(terrain.length - 1, Math.ceil((flower.x + footprint) / terrainStep));
+    const mountainLimit = height * 0.48;
+
+    for (let index = startIndex; index <= endIndex; index += 1) {
+      const sampleX = index * terrainStep;
+      const normalizedDistance = Math.abs(sampleX - flower.x) / footprint;
+      const mound = rise * Math.sqrt(Math.max(0, 1 - normalizedDistance * normalizedDistance));
+      terrain[index] = Math.max(mountainLimit, Math.min(terrain[index], landingY - mound));
+    }
+  };
+
+  const drawFlower = (flower) => {
+    context.save();
+    context.globalAlpha = flower.opacity;
+    context.translate(flower.x, flower.y);
+    context.rotate(flower.rotation);
+    context.drawImage(
+      flower.image,
+      -flower.size / 2,
+      -flower.size / 2,
+      flower.size,
+      flower.size,
+    );
+    context.restore();
+  };
+
+  const render = (now) => {
+    if (!isRunning) return;
+
+    const elapsed = Math.min((now - lastFrame) / 1000, 0.05);
+    lastFrame = now;
+    spawnElapsed += elapsed;
+
+    const spawnDelay = prefersReducedMotion ? 0.58 : 0.28;
+    while (spawnElapsed >= spawnDelay) {
+      spawnElapsed -= spawnDelay;
+      createFlower();
+    }
+
+    context.clearRect(0, 0, width, height);
+    context.drawImage(pileCanvas, 0, 0, width, height);
+
+    for (let index = activeFlowers.length - 1; index >= 0; index -= 1) {
+      const flower = activeFlowers[index];
+      flower.phase += flower.swaySpeed * elapsed;
+      flower.y += flower.speedY * elapsed;
+      flower.x = flower.baseX + Math.sin(flower.phase) * flower.sway;
+      flower.rotation += flower.rotationSpeed * elapsed;
+
+      const sampleX = Math.max(0, Math.min(width, flower.x));
+      const terrainIndex = Math.min(terrain.length - 1, Math.round(sampleX / terrainStep));
+      const hasLanded = flower.y + flower.size * 0.34 >= terrain[terrainIndex];
+
+      if (hasLanded) {
+        settleFlower(flower);
+        activeFlowers.splice(index, 1);
+      } else {
+        drawFlower(flower);
+      }
+    }
+
+    animationFrame = window.requestAnimationFrame(render);
+  };
+
+  const handleResize = () => {
+    if (!isRunning) return;
+    window.cancelAnimationFrame(animationFrame);
+    resizeCanvas();
+    if (!isReady) return;
+    lastFrame = performance.now();
+    animationFrame = window.requestAnimationFrame(render);
+  };
+
+  Promise.all(flowerSources.map(loadImage)).then((images) => {
+    flowerImages = images.filter(Boolean);
+    if (!flowerImages.length) return;
+
+    isReady = true;
+    resizeCanvas();
+    const initialFlowerCount = prefersReducedMotion ? 5 : 12;
+    for (let index = 0; index < initialFlowerCount; index += 1) createFlower(true);
+    animationFrame = window.requestAnimationFrame(render);
+  });
+
+  window.addEventListener("resize", handleResize, { passive: true });
+  window.visualViewport?.addEventListener("resize", handleResize, { passive: true });
+  window.addEventListener(
+    "pagehide",
+    () => {
+      isRunning = false;
+      window.cancelAnimationFrame(animationFrame);
+      activeFlowers.length = 0;
+    },
+    { once: true },
+  );
+};
+
+setupFlowerSnow();
+
 optionalImages.forEach((image) => {
   if (image.complete && image.naturalWidth > 0) {
     image.classList.add("is-loaded");
