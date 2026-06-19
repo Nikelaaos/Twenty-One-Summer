@@ -107,6 +107,8 @@ a {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  contain: strict;
+  isolation: isolate;
 }
 
 .flower-snow-canvas {
@@ -116,6 +118,11 @@ a {
   width: 100%;
   height: 100svh;
   pointer-events: none;
+  contain: strict;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  touch-action: pan-y;
 }
 
 .screen > :not(.page-bouquet) {
