@@ -2289,7 +2289,6 @@ body[data-page="closing"] .signature {
 
 body[data-page="closing"] .body-copy {
   color: rgba(255, 253, 248, 0.96);
-  text-shadow: 0 2px 14px rgba(58, 37, 29, 0.34);
 }
 
 body[data-page="closing"] .btn-primary[data-rsvp-button] {
